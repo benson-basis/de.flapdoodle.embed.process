@@ -205,6 +205,8 @@ public class CachingArtifactStore implements IArtifactStore {
 		@Override
 		public Thread newThread(Runnable runnable) {
 			Thread ret = factory.newThread(runnable);
+			// avoid tccl problems in Maven.
+			ret.setContextClassLoader(CachingArtifactStore.class.getClassLoader());
 			ret.setDaemon(true);
 			return ret;
 		}
